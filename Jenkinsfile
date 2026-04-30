@@ -6,7 +6,6 @@ pipeline {
     }
 
     stages {
-
         stage('Checkout Code') {
             steps {
                 echo 'Loading application from GitHub...'
@@ -30,14 +29,14 @@ pipeline {
 
         stage('Trivy Security Scan') {
             steps {
-                echo 'Scanning Docker image for vulnerabilities...'
+                echo 'Scanning Docker image for critical vulnerabilities...'
                 sh 'trivy image --severity CRITICAL --exit-code 1 cherry-learning-system'
             }
         }
 
-        stage('Run Container (Test Deployment)') {
+        stage('Run Container') {
             steps {
-                echo 'Running container for testing...'
+                echo 'Running container...'
                 sh '''
                 docker stop cherry-container || true
                 docker rm cherry-container || true
