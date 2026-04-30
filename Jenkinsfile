@@ -21,22 +21,24 @@ pipeline {
         }
 
         stage('SonarQube Code Quality Scan') {
-            steps {
-                echo 'Running SonarQube code quality scan...'
-                script {
-                    def scannerHome = tool 'SonarScanner'
-                    withSonarQubeEnv('SonarQube') {
-                        sh """
-                        ${scannerHome}/bin/sonar-scanner \
-                        -Dsonar.projectKey=cherry-learning-system \
-                        -Dsonar.projectName=Cherry-Learning-System \
-                        -Dsonar.sources=. \
-                        -Dsonar.exclusions=node_modules/** \
-                        -Dsonar.host.url=http://50.17.88.9:9000
-                        """
-                    }
-                }
+    steps {
+        echo 'Running SonarQube code quality scan...'
+        script {
+            def scannerHome = tool 'SonarScanner'
+            withSonarQubeEnv() {
+                sh """
+                ${scannerHome}/bin/sonar-scanner \
+                -Dsonar.projectKey=cherry-learning-system \
+                -Dsonar.projectName=Cherry-Learning-System \
+                -Dsonar.sources=. \
+                -Dsonar.exclusions=node_modules/** \
+                -Dsonar.host.url=http://50.17.88.9:9000
+                """
             }
+        }
+    }
+}
+                        
         }
 
         stage('Quality Gate') {
