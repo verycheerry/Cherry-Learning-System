@@ -39,11 +39,30 @@ pipeline {
             }
         }
 
+        stage('Quality Gate') {
+            steps {
+                echo 'Waiting for SonarQube Quality Gate result...'
+                timeout(time: 3, unit: 'MINUTES') {
+                    waitForQualityGate abortPipeline: true
+                }
+            }
+        }
+
         stage('Build Docker Image') {
             steps {
                 echo 'Building Docker image...'
                 sh 'docker build -t cherry-learning-system .'
             }
+        }
+    }
+
+    post {
+        success {
+            echo 'Pipeline completed successfully.'
+        }
+
+        failure {
+            echo 'Pipeline failed. Check SonarQube Quality Gate or build logs.'
         }
     }
 }
