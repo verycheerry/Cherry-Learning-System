@@ -36,6 +36,7 @@ app.get('/', (req, res) => {
             <div class="container">
                 <h1>Cherry Learning System</h1>
                 <p>Main branch version: System maintenance update first time & second time cotinue on</p>
+                <p>Main branch version: System maintenance update first time 1 & main change</p>
             </div>
         </body>
         </html>
